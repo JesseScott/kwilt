@@ -23,6 +23,8 @@ public static final int NUMBER_OF_TILES = 2;
 
 Tile[] tiles = new Tile[NUMBER_OF_TILES];
 
+int time = 0;
+
 
 // SETUP
 
@@ -45,9 +47,20 @@ void setup() {
 
 void draw() {
   
-  // Draw Tiles
+  timer();
+  
+}
+
+void drawTiles() {
   for(int i = 0; i < tiles.length; i++) {
     tiles[i].draw();
   }
-  
+}
+
+void timer() {
+   if(millis() - time >= 1000) {
+      println(int(frameRate) + "   " + millis());
+      drawTiles();
+      time = millis(); 
+   } 
 }

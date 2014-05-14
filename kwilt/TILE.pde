@@ -59,7 +59,7 @@ class Tile {
               s.stroke(#000000).strokeWeight(2).rotation( ((int)random(4)) * 90 );
               s.randomColors(colors).fillOnly();
               HDrawable d = (HDrawable) obj;
-              d.loc(TILE_WIDTH * index, height/2).anchorAt(H.CENTER);
+              d.loc(TILE_WIDTH * index, height/2).size(tileWidth/2, tileHeight/2).anchorAt(H.LEFT);
           }
         }
       )
