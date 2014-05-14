@@ -16,8 +16,8 @@
 
 // VARIABLES
 
-public static final int TILE_WIDTH = 540;
-public static final int TILE_HEIGHT = 720;
+public static final int TILE_WIDTH = 720;
+public static final int TILE_HEIGHT = 540;
 public static final int TILE_SECTION = 60;
 public static final int NUMBER_OF_TILES = 2;
 
