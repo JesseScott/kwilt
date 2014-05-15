@@ -31,15 +31,12 @@ int time = 0;
 void setup() {
   
   // Screen
-  size(TILE_WIDTH * NUMBER_OF_TILES, TILE_HEIGHT);  
+  size(TILE_WIDTH * NUMBER_OF_TILES, TILE_HEIGHT, P2D);  
   smooth();
-  
-  // Hype
-  H.init(this).background(#202020);
 
   // Create Tiles
   for(int i = 0; i < tiles.length; i++) {
-    tiles[i] = new Tile(this, i + 1); 
+    tiles[i] = new Tile(this, i); 
     tiles[i].setup();
   }
   
@@ -49,23 +46,12 @@ void setup() {
 // DRAW
 
 void draw() {
+  background(0);
   
-  timer();
-  
-  
-}
-
-void drawTiles() {
+  // Shapes
   for(int i = 0; i < tiles.length; i++) {
-    tiles[i].update();
-    H.drawStage();
+    tiles[i].draw();
   }
+  
 }
 
-void timer() {
-   if(millis() - time >= 1000) {
-      println(int(frameRate) + "   " + millis());
-      drawTiles();
-      time = millis(); 
-   } 
-}

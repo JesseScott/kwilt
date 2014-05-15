@@ -11,10 +11,12 @@ Holds an instance of Hype to draw one quilt to one tile
 class Tile {
   
   // Globals
-  HCanvas canvas;
-  HDrawablePool pool;
   PApplet parent;
   int index;
+  int rows, columns;
+  PShape shape;
+  PShape[] shapes;
+  color[] colors;
 
   Tile(PApplet _applet, int _index) {
     parent = _applet;
@@ -23,58 +25,59 @@ class Tile {
   
 
   void setup() {
-  
-    // Add Canvas to H
-
-    canvas = new HCanvas(TILE_WIDTH, TILE_HEIGHT).autoClear(false).fade(2);
-    H.add(canvas);  
-  
-    final HColorPool colors = new HColorPool(#FFFFFF, #F7F7F7, #ECECEC, #333333, #0095a8, #00616f, #FF3300, #FF6600);
-  
-    PShape svg1 = loadShape("art_01.svg");
-    PShape svg2 = loadShape("art_02.svg");
-    PShape svg3 = loadShape("art_03.svg");
-    PShape svg4 = loadShape("art_04.svg");
-    PShape svg5 = loadShape("art_05.svg");
-    PShape svg6 = loadShape("art_06.svg");
-  
-    pool = new HDrawablePool(120);
-    pool.autoParent(canvas)
-      .add (new HShape(svg1).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
-      .add (new HShape(svg2).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
-      .add (new HShape(svg3).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
-      .add (new HShape(svg4).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
-      .add (new HShape(svg5).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
-      .add (new HShape(svg6).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
-      .layout (
-        new HGridLayout()
-        .startX(70)
-        .startY(70)
-        .spacing(50,50)
-        .cols(11)
-      )
-      .onCreate (
-          new HCallback() {
-            public void run(Object obj) {
-              HShape s = (HShape) obj;
-              s.stroke(#000000).strokeWeight(2).rotation( ((int)random(4)) * 90 );
-              s.randomColors(colors);
-          }
-        }
-      )
-      .requestAll();
-  
     
+    rows = TILE_WIDTH / TILE_SECTION;
+    columns = TILE_HEIGHT / TILE_SECTION;
+    
+    colors = new color[8];
+    colors[0] = color(255);
+    colors[1] = color(247);
+    colors[2] = color(236);
+    colors[3] = color(51);
+    colors[4] = color(0, 149, 168);
+    colors[5] = color(0, 97, 111);
+    colors[6] = color(255, 51, 0);
+    colors[7] = color(255, 102, 0);
+  
+    shapes = new PShape[6];
+    shapes[0] = loadShape("art_01.svg");
+    shapes[1] = loadShape("art_02.svg");
+    shapes[2] = loadShape("art_03.svg");
+    shapes[3] = loadShape("art_04.svg");
+    shapes[4] = loadShape("art_05.svg");
+    shapes[5] = loadShape("art_06.svg");
+    
+    shape = createShape(GROUP);
+    for(int i = 0; i < rows; i++) {
+      for(int j = 0; j < columns; j++) {
+        PShape s = createShape(shapes[(int)random(shapes.length)]);
+        s.rotate( ((int)random(4)) * QUARTER_PI );
+        s.resetMatrix();             
+        s.translate( i * TILE_SECTION, j * TILE_SECTION );
+        s.setFill(colors[(int)random(colors.length)]);
+        s.setStroke(0);
+        shape.addChild(s);
+        
+      }
+    }
+    
+  
   }
   
   void update() {
-    canvas.updateBuffer();
     
   }
   
   void draw() {
+    //image(canvas, TILE_WIDTH * index, 0);
     
-    
+    strokeJoin(ROUND);
+    strokeCap(ROUND);
+    stroke(0);
+    strokeWeight(2);
+
+    shape(shape, TILE_WIDTH * index, 0);
+
   }
   
   
