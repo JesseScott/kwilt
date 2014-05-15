@@ -33,6 +33,9 @@ void setup() {
   // Screen
   size(TILE_WIDTH * NUMBER_OF_TILES, TILE_HEIGHT);  
   smooth();
+  
+  // Hype
+  H.init(this).background(#202020);
 
   // Create Tiles
   for(int i = 0; i < tiles.length; i++) {
@@ -49,11 +52,13 @@ void draw() {
   
   timer();
   
+  
 }
 
 void drawTiles() {
   for(int i = 0; i < tiles.length; i++) {
-    tiles[i].draw();
+    tiles[i].update();
+    H.drawStage();
   }
 }
 

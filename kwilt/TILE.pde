@@ -11,7 +11,7 @@ Holds an instance of Hype to draw one quilt to one tile
 class Tile {
   
   // Globals
-  H h;
+  HCanvas canvas;
   HDrawablePool pool;
   PApplet parent;
   int index;
@@ -23,17 +23,11 @@ class Tile {
   
 
   void setup() {
-    
-    h = new H();  
-    h.init(parent)
-    //.background(#202020)
-    .stage()
-      .width(TILE_WIDTH)
-      .height(TILE_HEIGHT)
-      .x(TILE_WIDTH * index)
-      .y(0)
-      .draw(parent, TILE_WIDTH * index, 0, 255)
-    ;
+  
+    // Add Canvas to H
+
+    canvas = new HCanvas(TILE_WIDTH, TILE_HEIGHT).autoClear(false).fade(2);
+    H.add(canvas);  
   
     final HColorPool colors = new HColorPool(#FFFFFF, #F7F7F7, #ECECEC, #333333, #0095a8, #00616f, #FF3300, #FF6600);
   
@@ -45,7 +39,7 @@ class Tile {
     PShape svg6 = loadShape("art_06.svg");
   
     pool = new HDrawablePool(120);
-    pool.autoAddToStage()
+    pool.autoParent(canvas)
       .add (new HShape(svg1).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
       .add (new HShape(svg2).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
       .add (new HShape(svg3).strokeJoin(ROUND).strokeCap(ROUND).anchorAt(H.CENTER))
@@ -64,7 +58,7 @@ class Tile {
             public void run(Object obj) {
               HShape s = (HShape) obj;
               s.stroke(#000000).strokeWeight(2).rotation( ((int)random(4)) * 90 );
-              s.randomColors(colors).fillOnly();
+              s.randomColors(colors);
           }
         }
       )
@@ -74,12 +68,12 @@ class Tile {
   }
   
   void update() {
-    
+    canvas.updateBuffer();
     
   }
   
   void draw() {
-    h.drawStage();
+    
     
   }
   
