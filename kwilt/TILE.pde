@@ -13,14 +13,17 @@ class Tile {
   // Globals
   PApplet parent;
   int index;
+  int xpos, ypos;
   int rows, columns;
   PShape shape;
   PShape[] shapes;
   color[] colors;
 
-  Tile(PApplet _applet, int _index) {
+  Tile(PApplet _applet, int _index, int _xpos, int _ypos) {
     parent = _applet;
     index = _index;
+    xpos = _xpos;
+    ypos = _ypos;
   }
   
 
@@ -76,7 +79,8 @@ class Tile {
     stroke(0);
     strokeWeight(2);
 
-    shape(shape, TILE_WIDTH * index, 0);
+    //shape(shape, TILE_WIDTH * index, 0);
+    shape(shape, xpos, ypos);
 
   }
   
