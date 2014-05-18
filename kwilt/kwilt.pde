@@ -23,6 +23,8 @@ Tile[] tiles = new Tile[NUMBER_OF_TILES];
 
 int time = 0;
 
+boolean debug = false;
+
 // SCREEN
 
 public void init() {
@@ -30,7 +32,6 @@ public void init() {
   frame.setUndecorated(true);
   frame.addNotify();
   super.init();
-  
 }
 
 
@@ -41,7 +42,7 @@ void setup() {
   
   // Screen
   size(TILE_WIDTH * NUMBER_OF_ROWS, TILE_HEIGHT * NUMBER_OF_COLS, P2D);  
-  frame.setLocation(1920, 0);
+  frame.setLocation(0 - (TILE_WIDTH * 2), 0);
   smooth();
 
   // Create Tiles

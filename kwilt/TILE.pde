@@ -56,7 +56,7 @@ class Tile {
         PShape s = createShape(shapes[(int)random(shapes.length)]);
         s.rotate( ((int)random(4)) * QUARTER_PI );
         s.resetMatrix();             
-        s.translate( i * TILE_SECTION, j * TILE_SECTION );
+        s.translate( i * TILE_SECTION + 5, j * TILE_SECTION +5);
         s.setFill(colors[(int)random(colors.length)]);
         s.setStroke(0);
         shape.addChild(s);
@@ -72,16 +72,23 @@ class Tile {
   }
   
   void draw() {
-    //image(canvas, TILE_WIDTH * index, 0);
     
-    strokeJoin(ROUND);
-    strokeCap(ROUND);
-    stroke(0);
-    strokeWeight(2);
-
-    //shape(shape, TILE_WIDTH * index, 0);
-    shape(shape, xpos, ypos);
-
+    if(debug) {
+      stroke(255, 0, 0);
+      rect(xpos, ypos, TILE_WIDTH, TILE_HEIGHT);
+      fill(0);
+      textSize(96);
+      text(index, xpos + TILE_WIDTH/2, ypos + TILE_HEIGHT/2); 
+    }
+    else {
+      strokeJoin(ROUND);
+      strokeCap(ROUND);
+      stroke(0);
+      strokeWeight(2);
+  
+      shape(shape, xpos, ypos);
+    }
+    
   }
   
   
