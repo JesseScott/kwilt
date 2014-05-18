@@ -42,8 +42,10 @@ void setup() {
   
   // Screen
   size(TILE_WIDTH * NUMBER_OF_ROWS, TILE_HEIGHT * NUMBER_OF_COLS, P2D);  
-  frame.setLocation(0 - (TILE_WIDTH * 2), 0);
+  frame.setLocation(0 - (TILE_WIDTH * NUMBER_OF_ROWS), 0);
   smooth();
+  background(0);
+  frameRate(15);
 
   // Create Tiles
   for(int i = 0; i < tiles.length; i++) {
@@ -62,8 +64,32 @@ void draw() {
   background(0);
   
   // Shapes
+  int count = 0;
   for(int i = 0; i < tiles.length; i++) {
+    
+    // Update One Tile At A Time
+    if(i == count) {
+      
+      // Check Which Shape Is Updating
+      int currFrame = frameCount % (tiles[count].getNumShapes());
+      println(currFrame + " / " + tiles[count].getNumShapes());
+      
+      if(currFrame < tiles[count].getNumShapes()-1) {
+        // Update Sub Tiles On Counter
+        tiles[count].update(currFrame);
+      }
+      else {
+        count++; 
+      }
+      println("Current Tile Is " + count);
+    }
+    
+    //Draw All Tiles
     tiles[i].draw();
+  }
+  
+  if(frameCount % 120 == 0) {
+    //println("FPS: " + round(frameRate)); 
   }
   
 }
