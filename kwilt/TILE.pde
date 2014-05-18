@@ -16,7 +16,6 @@ class Tile {
   int count, total;
   int xpos, ypos;
   int rows, columns;
-  boolean isUpdating;
   PShape shape;
   PShape[] shapes;
   color[] colors;
@@ -67,7 +66,6 @@ class Tile {
     count = 0;
     for(int r = 0; r < rows; r++) {
       for(int c = 0; c < columns; c++) {
-        // One Shape At A Time
         if(count == currentShape) {
           PShape s = shape.getChild(currentShape);
           s.translate( 0,  0);
@@ -78,13 +76,11 @@ class Tile {
         count++;
       }
     }
-    println("count: " + count + "\t current: " + currentShape);
-
   }
   
   void draw() {
     
-    if(debug) {
+    if(debugLayout) {
       stroke(255, 0, 0);
       fill(0);
       rect(xpos, ypos, TILE_WIDTH, TILE_HEIGHT);
@@ -110,10 +106,6 @@ class Tile {
   
   int getNumShapes() {
     return total; 
-  }
-  
-  boolean isUpdating() {
-    return isUpdating; 
   }
   
   
