@@ -78,7 +78,7 @@ void draw() {
     // When We Are At The Last Sub-Shape, Jump To The Next Tile
     else {
       currentTile ++;
-      currentTile = currentTile % 4;
+      currentTile = currentTile % tiles.length;
     }
 
   // Draw Tiles
