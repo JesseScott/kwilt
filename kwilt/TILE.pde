@@ -13,14 +13,18 @@ class Tile {
   // Globals
   PApplet parent;
   int index;
+  int count, total;
+  int xpos, ypos;
   int rows, columns;
   PShape shape;
   PShape[] shapes;
   color[] colors;
 
-  Tile(PApplet _applet, int _index) {
+  Tile(PApplet _applet, int _index, int _xpos, int _ypos) {
     parent = _applet;
     index = _index;
+    xpos = _xpos;
+    ypos = _ypos;
   }
   
 
@@ -48,36 +52,60 @@ class Tile {
     shapes[5] = loadShape("art_06.svg");
     
     shape = createShape(GROUP);
-    for(int i = 0; i < rows; i++) {
-      for(int j = 0; j < columns; j++) {
-        PShape s = createShape(shapes[(int)random(shapes.length)]);
-        s.rotate( ((int)random(4)) * QUARTER_PI );
-        s.resetMatrix();             
-        s.translate( i * TILE_SECTION, j * TILE_SECTION );
-        s.setFill(colors[(int)random(colors.length)]);
-        s.setStroke(0);
+    for(int r = 0; r < rows; r++) {
+      for(int c = 0; c < columns; c++) {
+        PShape s = seedShape(r, c);
         shape.addChild(s);
-        
+        total++;
       }
-    }
-    
+    }  
   
   }
   
-  void update() {
-    
+  void update(int currentShape) {
+    count = 0;
+    for(int r = 0; r < rows; r++) {
+      for(int c = 0; c < columns; c++) {
+        if(count == currentShape) {
+          PShape s = shape.getChild(currentShape);
+          s.translate( 0,  0);
+          s.resetMatrix();
+          s.rotate( ((int)random(4) + index) * QUARTER_PI );
+          s.translate( r * TILE_SECTION + 5,  c * TILE_SECTION +5);
+        }
+        count++;
+      }
+    }
   }
   
   void draw() {
-    //image(canvas, TILE_WIDTH * index, 0);
     
-    strokeJoin(ROUND);
-    strokeCap(ROUND);
-    stroke(0);
-    strokeWeight(2);
-
-    shape(shape, TILE_WIDTH * index, 0);
-
+    if(debugLayout) {
+      stroke(255, 0, 0);
+      fill(0);
+      rect(xpos, ypos, TILE_WIDTH, TILE_HEIGHT);
+      fill(255);
+      textSize(96);
+      text(index, xpos + TILE_WIDTH/2, ypos + TILE_HEIGHT/2); 
+    }
+    else {
+      shape(shape, xpos, ypos);
+    }
+    
+  }
+  
+  PShape seedShape(int _row, int _col) {
+      PShape s = createShape(shapes[(int)random(shapes.length)]);
+      s.rotate( ((int)random(4)) * QUARTER_PI );
+      s.resetMatrix();             
+      s.translate( _row * TILE_SECTION + 5, _col * TILE_SECTION +5);
+      s.setFill(colors[(int)random(colors.length)]);
+      s.setStroke(0);
+      return s;
+  }
+  
+  int getNumShapes() {
+    return total; 
   }
   
   
